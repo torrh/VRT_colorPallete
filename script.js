@@ -1,9 +1,0 @@
-function randomPalette(){
-
-}
-
-
-
-function generateRules(){
-
-}

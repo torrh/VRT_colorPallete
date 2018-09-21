@@ -1,3 +1,103 @@
+var randomButton = document.getElementById("random-button")
+randomButton.addEventListener("click", updatePaletteColors);
+
+var clearButton = document.getElementById("clear-button")
+clearButton.addEventListener("click", clear);
+
+function updatePaletteColors() {
+
+    var color1 = document.getElementById("color1");
+    color1.style.backgroundColor = generateRules();
+    console.log(rgb2hex(color1.style.backgroundColor));
+
+    var color2 = document.getElementById("color2");
+    color2.style.backgroundColor = generateRules();
+    console.log(rgb2hex(color2.style.backgroundColor));
+
+    var color3 = document.getElementById("color3");
+    color3.style.backgroundColor = generateRules();
+    console.log(rgb2hex(color3.style.backgroundColor));
+
+    var color4 = document.getElementById("color4");
+    color4.style.backgroundColor = generateRules();
+    console.log(rgb2hex(color4.style.backgroundColor));
+
+    var color5 = document.getElementById("color5");
+    color5.style.backgroundColor = generateRules();
+    console.log(rgb2hex(color5.style.backgroundColor));
+
+    // update css rules
+
+    var color =  '.website-background{ color: '+rgb2hex(color1.style.backgroundColor).toUpperCase()+';}\n\n';
+    var text =  '.element-text{ color: '+rgb2hex(color2.style.backgroundColor).toUpperCase()+';}\n\n';
+    var border =  '.element-border{ color: '+rgb2hex(color3.style.backgroundColor).toUpperCase()+';}\n\n';
+    var background = '.element-background{ background-color: '+rgb2hex(color4.style.backgroundColor).toUpperCase()+';}\n\n';
+    var header = '.header{ header: '+rgb2hex(color5.style.backgroundColor).toUpperCase()+';}\n\n';
+
+    document.getElementById('css-rules').value = '\n'+ color + text + border + background + header
+}
+
+function clear() {
+    var color1 = document.getElementById("color1");
+    color1.style.backgroundColor = "white";
+
+    var color2 = document.getElementById("color2");
+    color2.style.backgroundColor = "white";
+
+    var color3 = document.getElementById("color3");
+    color3.style.backgroundColor = "white";
+
+    var color4 = document.getElementById("color4");
+    color4.style.backgroundColor = "white";
+
+    var color5 = document.getElementById("color5");
+    color5.style.backgroundColor = "white";
+
+    var color =  '.website-background{ color: #FFFFFF;}\n\n';
+    var text =  '.element-text{ color: #FFFFFF;}\n\n';
+    var border =  '.element-border{ color: #FFFFFF;}\n\n';
+    var background = '.element-background{ background-color: #FFFFFF;}\n\n';
+    var header = '.header{ header: #FFFFFF;}\n\n';
+
+    document.getElementById('css-rules').value = '\n'+ color + text + border + background + header
+}
+
+//Function to convert rgb color to hex format
+function rgb2hex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    return "#" + convertToHex(rgb[1]) + convertToHex(rgb[2]) + convertToHex(rgb[3]);
+}
+
+function randomNumber(){
+    return (Math.floor((Math.random() * 255) + 1)) / 255;
+}
+
+function generateRules(){
+    let randomHsl = rgbToHsl(randomNumber(), randomNumber(), randomNumber());
+    randomHsl[0] = (randomHsl[0] + 0.5) % 1;
+    randomHsl[1] = (randomHsl[1] + 0.5) % 1;
+    randomHsl[2] = (randomHsl[2] + 0.5) % 1;
+
+    return 'hsl('+(randomHsl[0]*360)+','+(randomHsl[1]*100)+'%, '+(randomHsl[2]*100)+'%)';
+}
+
+function convertToHex(value){
+    var hex = Number(value).toString(16);
+    if (hex.length === 1) {
+        hex = '0' + hex;
+    }
+
+    return hex;
+}
+
+function createRandomColor() {
+    let red = randomNumber();
+    let green = randomNumber();
+    let blue = randomNumber();
+
+    return '#' + convertToHex(red) + convertToHex(green) + convertToHex(blue);
+}
+
 //CODE from: http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 
 /**
@@ -11,7 +111,7 @@
  * @param   Number  b       The blue color value
  * @return  Array           The HSL representation
  */
- export function rgbToHsl(r, g, b){
+function rgbToHsl(r, g, b){
     r /= 255, g /= 255, b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
